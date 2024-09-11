@@ -1,4 +1,4 @@
-ame: Build For x86_64
+name: Build For x86_64
 
 on:
   repository_dispatch:
