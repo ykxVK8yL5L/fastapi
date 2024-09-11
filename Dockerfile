@@ -33,5 +33,5 @@ WORKDIR /root/
 RUN chmod -R 777 /root
 
 CMD [ "/entrypoint.sh" ]
-EXPOSE 9867
+EXPOSE 8000
 USER 10001
