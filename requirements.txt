@@ -1,0 +1,8 @@
+fastapi
+requests
+jinja2
+aiofiles
+uvicorn
+sqlalchemy
+fastapi-utilities
+pymongo
