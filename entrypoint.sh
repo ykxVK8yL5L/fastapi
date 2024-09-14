@@ -1,6 +1,6 @@
 #!/bin/bash
 
-uvicorn main:app --host '0.0.0.0' --port 8000 --reload --reload-include '*.ini' &
+uvicorn main:app --host '::' --port 8000 --reload --reload-include '*.ini' &
   
 # Wait for any process to exit
 wait -n
