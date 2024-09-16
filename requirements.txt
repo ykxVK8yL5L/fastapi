@@ -8,5 +8,4 @@ fastapi-utilities
 pymongo
 bs4
 httpx
-requests
 cloudscraper==1.2.71
