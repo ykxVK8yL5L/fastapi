@@ -9,3 +9,7 @@ pymongo
 bs4
 httpx
 cloudscraper==1.2.71
+datetime
+cachelib
+python-multipart
+webdav4
