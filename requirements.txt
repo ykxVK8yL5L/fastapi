@@ -6,6 +6,7 @@ aiofiles
 uvicorn
 sqlalchemy
 fastapi-utilities
+fastapi-pagination
 pymongo
 bs4
 httpx
