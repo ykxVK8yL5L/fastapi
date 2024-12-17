@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>React</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="/assets/js/react.development.js"></script>
+  <script src="/assets/js/react-dom.development.js"></script>
+  <script src="/assets/js/react-bootstrap.min.js"></script>
+  <script src="/assets/js/react-router-dom.js"></script>
+  <script src="/assets/js/dayjs.min.js"></script>
+  <script src="/assets/js/babel.js"></script>
+  <script src="/assets/js/runtime.min.js"></script>
+  <script src="/assets/js/jquery.min.js"></script>
+  <script src="/assets/js/fancybox.js"></script>
+  <script src="/assets/js/mitt.js"></script>
+  <script src="/assets/layer/layer.js"></script>
+  <script src="/assets/js/polyfill.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/css/materialdesignicons.min.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/css/roboto.css" />
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { Link, Route } = ReactRouterDOM;
+    const { Alert, Button, Modal } = ReactBootstrap;
+
+    //监听事件开始  通过localstorage实现跨页面事件监听
+    const emitter = mitt()
+    // 监听 localStorage 变化
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'event') {
+        const { type, data } = JSON.parse(event.newValue);
+        emitter.emit(type, data);
+      }
+    });
+    // 封装 emit 方法
+    const emitEvent = (type, data) => {
+      // 触发本地事件
+      emitter.emit(type, data);
+      const randomString = Math.random().toString(36).substring(2, 10); // 生成一个随机字符串确保event每次的值不一样，如果一样会不触发事件
+      const identity = `${ Date.now() }-${ randomString }`;
+      // 存储到 localStorage，以便其他页面能够接收到
+      localStorage.setItem('event', JSON.stringify({ type, data, identity }));
+    };
+    // 封装 on 方法
+    const onEvent = (type, callback) => {
+      emitter.on(type, callback);
+    };
+    // 封装 off 方法
+    const offEvent = (type, callback) => {
+      emitter.off(type, callback);
+    };
+    //事件监听结束
+
+    //导入页面组件 开始
+    {% include 'pages/home.js' %}
+    //导入所有页面组件 结束
+
+    const App = () => {
+      //const [rootPath, setRootPath] = useState('/');
+      //useEffect(() => {
+      //}, []);
+      return (
+        <div>
+          <h1>This is Home</h1>
+        </div>
+      );
+    };
+
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(
+      <ReactRouterDOM.HashRouter>
+        <ul>
+          <li><Link to="/">TO HOME</Link></li>
+          <li><Link to="/home">TO Page</Link></li>
+        </ul>
+        <Route path="/" exact component={ App } />
+        <Route path="/home" exact component={ Home } />
+      </ReactRouterDOM.HashRouter>
+    );
+
+
+    Fancybox.bind("[data-fancybox]", {
+      Toolbar: {
+        items: {
+        },
+        display: {
+          left: ["infobar"],
+          middle: [
+            "zoomIn",
+            "zoomOut",
+            "toggle1to1",
+          ],
+          right: ["facebook", "slideshow", "thumbs", "close"],
+        },
+      },
+      Images: {
+        initialSize: "fit",
+      }
+    });
+
+
+
+  </script>
+
+</body>
+
+</html>
