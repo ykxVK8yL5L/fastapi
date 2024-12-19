@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
     return (
         <div>
             <header>
-                <Navbar expand="md" className="mb-3" >
+                <Navbar expand="md">
                     <Container fluid>
                         <div>
                             <Navbar.Toggle className="shadow-none border-0" onClick={ handleSidebarShow } children={ <Icon icon="menu" size="3" className="text-white" /> } />
@@ -28,35 +28,36 @@ const Layout = ({ children }) => {
                     </Container>
                 </Navbar>
             </header >
-            <Container fluid>
-
+            <Container fluid className="ps-0">
                 <Row>
-                    <Col md="2" lg="1">
-                        <Offcanvas show={ showSideBar } onHide={ handleSidebarClose }
+                    <Col md="2" lg="2" xl="2">
+                        <Offcanvas className="leftsidebar bg-light pt-2" show={ showSideBar } onHide={ handleSidebarClose }
                             placement="start"
-                            responsive="md"
-                            style={ { maxWidth: "50%" } }>
+                            responsive="md">
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title>PikPak</Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>
-                                <Nav className="flex-column justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link as={ Link } to="/" onClick={ handleSidebarClose }>Home</Nav.Link>
-                                    <Nav.Link as={ Link } to="/home" onClick={ handleSidebarClose }>Link</Nav.Link>
-                                </Nav>
+                                <Container fluid className="p-0">
+                                    <Nav activeKey="1" className="flex-column">
+                                        <Nav.Link as={ Link } className="nav-link" to="/home" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home</Nav.Link>
+                                        <Nav.Link as={ Link } className="nav-link" to="/" onClick={ handleSidebarClose }><Icon icon="menu" size="6" className="me-1" />Root</Nav.Link>
+                                    </Nav>
+                                </Container>
+
                             </Offcanvas.Body>
                         </Offcanvas>
                     </Col>
 
-                    <Col md="10" lg="11">
+                    <Col md="10" lg="10" xl="10">
                         <main>
-                            <Container fluid>
+                            <Container fluid className="pt-2">
                                 { children }
                             </Container>
                         </main>
                     </Col>
                 </Row>
-            </Container>
-        </div>
+            </Container >
+        </div >
     );
 }
