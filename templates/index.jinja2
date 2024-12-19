@@ -17,17 +17,19 @@
   <script src="/assets/js/runtime.min.js"></script>
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/fancybox.js"></script>
-  <script src="/assets/js/mitt.js"></script>
+  <script src="/assets/js/mitt.umd.js"></script>
   <script src="/assets/layer/layer.js"></script>
   <script src="/assets/js/polyfill.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/assets/css/materialdesignicons.min.css" />
   <link rel="stylesheet" type="text/css" href="/assets/css/roboto.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
 
   <script type="text/babel">
     const { useState, useEffect } = React;
-    const { Link, Route } = ReactRouterDOM;
-    const { Alert, Button, Modal } = ReactBootstrap;
+    const { HashRouter, Route, Link, Switch } = ReactRouterDOM;
+    const { Alert, Badge, Button, Collapse, Col, Container, Form, InputGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Row } = ReactBootstrap;
+
 
     //监听事件开始  通过localstorage实现跨页面事件监听
     const emitter = mitt()
@@ -57,7 +59,12 @@
     };
     //事件监听结束
 
-    //导入页面组件 开始
+
+    //导入组件 开始
+    {% include 'components/icon.js' %}
+    //导入所有组件 结束
+    //导入页面 开始
+    {% include 'pages/layout.js' %}
     {% include 'pages/home.js' %}
     //导入所有页面组件 结束
 
@@ -76,14 +83,16 @@
     const container = document.getElementById('root');
     const root = ReactDOM.createRoot(container);
     root.render(
-      <ReactRouterDOM.HashRouter>
-        <ul>
-          <li><Link to="/">TO HOME</Link></li>
-          <li><Link to="/home">TO Page</Link></li>
-        </ul>
-        <Route path="/" exact component={ App } />
-        <Route path="/home" exact component={ Home } />
-      </ReactRouterDOM.HashRouter>
+      <HashRouter>
+        <Route path='/:path?' exact>
+          <Layout>
+            <Switch>
+              <Route path="/" exact component={ App } />
+              <Route path="/home" exact component={ Home } />
+            </Switch>
+          </Layout>
+        </Route>
+      </HashRouter>
     );
 
 
