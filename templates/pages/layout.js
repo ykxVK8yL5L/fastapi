@@ -19,7 +19,7 @@ const Layout = ({ children }) => {
                 <Navbar expand="md" className="mb-3" >
                     <Container fluid>
                         <div>
-                            <Navbar.Toggle className="border-0" onClick={ handleSidebarShow } children={ <Icon icon="menu" size="3" className="text-white" /> } />
+                            <Navbar.Toggle className="shadow-none border-0" onClick={ handleSidebarShow } children={ <Icon icon="menu" size="3" className="text-white" /> } />
                             <Navbar.Brand as={ Link } to="/" className="text-white">离线管理</Navbar.Brand>
                         </div>
                         <div className="d-flex">
