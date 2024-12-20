@@ -24,6 +24,7 @@
   <link rel="stylesheet" type="text/css" href="/assets/css/materialdesignicons.min.css" />
   <link rel="stylesheet" type="text/css" href="/assets/css/roboto.css" />
   <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
+
   <style>
     .leftsidebar {
       position: fixed;
@@ -45,7 +46,7 @@
   </style>
   <script type="text/babel">
     const { useState, useEffect } = React;
-    const { HashRouter, Route, Link, Switch } = ReactRouterDOM;
+    const { HashRouter, Route, Link, Switch, useLocation, useParams } = ReactRouterDOM;
     const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Row, ButtonToolbar } = ReactBootstrap;
 
 
@@ -127,11 +128,12 @@
     const root = ReactDOM.createRoot(container);
     root.render(
       <HashRouter>
-        <Route path='/:path?' exact>
+        <Route path='/:path?'>
           <Layout>
             <Switch>
               <Route path="/" exact component={ App } />
               <Route path="/home" exact component={ Home } />
+              <Route path="/home/:id?" component={ Home } />
             </Switch>
           </Layout>
         </Route>

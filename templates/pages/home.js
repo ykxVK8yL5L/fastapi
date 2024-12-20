@@ -1,7 +1,10 @@
 
 const Home = () => {
-
+    const location = useLocation()
+    const { id } = useParams()
     useEffect(() => {
+        console.log(location);
+        console.log(id);
         // 组件挂载时执行的代码（相当于 componentDidMount）
     }, []); // 空数组表示只在挂载和卸载时执行
 

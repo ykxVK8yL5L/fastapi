@@ -44,6 +44,7 @@ const Layout = ({ children }) => {
                                 <Container fluid className="p-0">
                                     <Nav activeKey="1" className="flex-column">
                                         <Nav.Link as={ Link } className="nav-link" to="/home" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home</Nav.Link>
+                                        <Nav.Link as={ Link } className="nav-link" to="/home/abc" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home/id</Nav.Link>
                                         <Nav.Link as={ Link } className="nav-link" to="/" onClick={ handleSidebarClose }><Icon icon="menu" size="6" className="me-1" />Root</Nav.Link>
                                     </Nav>
                                 </Container>
