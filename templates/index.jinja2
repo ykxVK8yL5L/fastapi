@@ -131,7 +131,7 @@
         <Route path='/:path?'>
           <Layout>
             <Switch>
-              <Route path="/" component={ App } />
+              <Route path="/" exact component={ App } />
               <Route path="/home" exact component={ Home } />
               <Route path="/home/:id?" component={ Home } />
             </Switch>
