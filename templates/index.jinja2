@@ -46,7 +46,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
     const { HashRouter, Route, Link, Switch } = ReactRouterDOM;
-    const { Alert, Badge, Button, Collapse, Col, Container, Form, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Row } = ReactBootstrap;
+    const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Row, ButtonToolbar } = ReactBootstrap;
 
 
     //监听事件开始  通过localstorage实现跨页面事件监听
@@ -79,7 +79,8 @@
 
 
     //导入组件 开始
-    {% include 'components/icon.js' %}
+    {% include 'components/Icon.js' %}
+    {% include 'components/IconButton.js' %}
     //导入所有组件 结束
     //导入页面 开始
     {% include 'pages/layout.js' %}
@@ -90,9 +91,33 @@
       //const [rootPath, setRootPath] = useState('/');
       //useEffect(() => {
       //}, []);
+      const [open, setOpen] = useState(false);
       return (
         <div>
-          <h1>This is Home</h1>
+          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-2 mb-2 border-bottom bg-light">
+            <h1 className="h2">Dashboard</h1>
+            <ButtonToolbar aria-label="功能区" className="bg-teal">
+              <ButtonGroup className="bg-teal">
+                <Button
+                  className="bg-teal border-0"
+                  onClick={ () => setOpen(!open) }
+                  aria-controls="example-collapse-text"
+                  aria-expanded={ open }
+                >
+                  click
+                </Button>
+                <IconButton onClick={ () => { alert(hello); } } text="刷新" className="bg-teal border-0" icon="reload" iconClassName="me-1 text-white" iconSize="6" />
+                <IconButton onClick={ () => { alert(hello); } } text="删除" className="bg-teal border-0" icon="delete-outline" iconClassName="me-1 text-white" iconSize="6" />
+              </ButtonGroup>
+            </ButtonToolbar>
+          </div>
+          <Collapse in={ open }>
+            <div id="example-collapse-text">
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
+              terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
+              labore wes anderson cred nesciunt sapiente ea proident.
+            </div>
+          </Collapse>
         </div>
       );
     };

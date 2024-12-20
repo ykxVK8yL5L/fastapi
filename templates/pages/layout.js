@@ -5,6 +5,9 @@ const Layout = ({ children }) => {
             layer.alert(e.a);
         };
         onEvent('downloads', download_handler);
+        return () => {
+            offEvent('downloads', download_handler);
+        };
     }, []); // 空数组表示只在挂载和卸载时执行
 
     const [showSideBar, setShowSideBar] = useState(false);
@@ -28,9 +31,9 @@ const Layout = ({ children }) => {
                     </Container>
                 </Navbar>
             </header >
-            <Container fluid className="ps-0">
+            <Container fluid className="">
                 <Row>
-                    <Col md="2" lg="2" xl="2">
+                    <Col md="2" lg="2" xl="2" className="p-0">
                         <Offcanvas className="leftsidebar bg-light pt-2" show={ showSideBar } onHide={ handleSidebarClose }
                             placement="start"
                             responsive="md">
@@ -49,7 +52,7 @@ const Layout = ({ children }) => {
                         </Offcanvas>
                     </Col>
 
-                    <Col md="10" lg="10" xl="10">
+                    <Col xs="12" sm="12" md="10" lg="10" xl="10" className="p-0">
                         <main>
                             <Container fluid className="pt-2">
                                 { children }

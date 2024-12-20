@@ -3,10 +3,6 @@ const Home = () => {
 
     useEffect(() => {
         // 组件挂载时执行的代码（相当于 componentDidMount）
-        const download_handler = (e) => {
-            layer.alert(e.a);
-        };
-        onEvent('downloads', download_handler);
     }, []); // 空数组表示只在挂载和卸载时执行
 
 
