@@ -15,7 +15,6 @@ const Layout = ({ children }) => {
     const handleSidebarShow = () => setShowSideBar(true);
     const toggleSidebar = () => { setShowSideBar(!showSideBar); }
 
-
     return (
         <div>
             <header>
@@ -31,21 +30,20 @@ const Layout = ({ children }) => {
                     </Container>
                 </Navbar>
             </header >
-            <Container fluid className="">
+            <Container fluid>
                 <Row>
-                    <Col md="2" lg="2" xl="2" className="p-0">
-                        <Offcanvas className="leftsidebar bg-light pt-2" show={ showSideBar } onHide={ handleSidebarClose }
+                    <Col md="2" lg="2" xl="2">
+                        <Offcanvas className="leftsidebar h-100 bg-light" show={ showSideBar } onHide={ handleSidebarClose }
                             placement="start"
                             responsive="md">
-                            <Offcanvas.Header closeButton>
+                            <Offcanvas.Header className="py-2 border-bottom" closeButton>
                                 <Offcanvas.Title>PikPak</Offcanvas.Title>
                             </Offcanvas.Header>
-                            <Offcanvas.Body>
+                            <Offcanvas.Body className="p-0">
                                 <Container fluid className="p-0">
                                     <Nav activeKey="1" className="flex-column">
-                                        <Nav.Link as={ Link } className="nav-link" to="/home" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home</Nav.Link>
-                                        <Nav.Link as={ Link } className="nav-link" to="/home/abc" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home/id</Nav.Link>
-                                        <Nav.Link as={ Link } className="nav-link" to="/" onClick={ handleSidebarClose }><Icon icon="menu" size="6" className="me-1" />Root</Nav.Link>
+                                        <Nav.Link as={ Link } className="nav-link text-dark" to="/home" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home</Nav.Link>
+                                        <Nav.Link as={ Link } className="nav-link text-dark" to="/" onClick={ handleSidebarClose }><Icon icon="menu" size="6" className="me-1" />Root</Nav.Link>
                                     </Nav>
                                 </Container>
 
@@ -53,7 +51,7 @@ const Layout = ({ children }) => {
                         </Offcanvas>
                     </Col>
 
-                    <Col xs="12" sm="12" md="10" lg="10" xl="10" className="p-0">
+                    <Col xs="12" sm="12" md="10" lg="10" xl="10">
                         <main>
                             <Container fluid className="pt-2">
                                 { children }

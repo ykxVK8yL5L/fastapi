@@ -16,6 +16,7 @@
   <script src="/assets/js/babel.js"></script>
   <script src="/assets/js/runtime.min.js"></script>
   <script src="/assets/js/jquery.min.js"></script>
+  <script src="/assets/js/axios.min.js"></script>
   <script src="/assets/js/fancybox.js"></script>
   <script src="/assets/js/mitt.umd.js"></script>
   <script src="/assets/layer/layer.js"></script>
@@ -28,9 +29,9 @@
   <style>
     .leftsidebar {
       position: fixed;
-      height: 100%;
       box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
     }
+
 
     @media (min-width: 768px) {
       .leftsidebar {
@@ -48,7 +49,7 @@
     const { useState, useEffect } = React;
     const { HashRouter, Route, Link, Switch, useLocation, useParams } = ReactRouterDOM;
     const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Row, ButtonToolbar } = ReactBootstrap;
-
+    const API_URL = "http://yourapi.com";
 
     //监听事件开始  通过localstorage实现跨页面事件监听
     const emitter = mitt()
@@ -79,6 +80,12 @@
     //事件监听结束
 
 
+    //导入utils 开始
+    {% include 'utils/api.js' %}
+    //导入所有utils 结束
+    //导入hooks 开始
+    {% include 'hooks/useAxios.js' %}
+    //导入所有hooks 结束
     //导入组件 开始
     {% include 'components/Icon.js' %}
     {% include 'components/IconButton.js' %}
@@ -89,25 +96,17 @@
     //导入所有页面组件 结束
 
     const App = () => {
-      //const [rootPath, setRootPath] = useState('/');
       //useEffect(() => {
       //}, []);
       const [open, setOpen] = useState(false);
       return (
         <div>
-          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-2 mb-2 border-bottom bg-light">
-            <h1 className="h2">Dashboard</h1>
-            <ButtonToolbar aria-label="功能区" className="bg-teal">
+          <div className="d-flex justify-content-between align-items-center p-2 border-bottom bg-light">
+            <label className="fs-3">控制面板</label>
+            <ButtonToolbar aria-label="功能区" className="bg-teal rounded">
               <ButtonGroup className="bg-teal">
-                <Button
-                  className="bg-teal border-0"
-                  onClick={ () => setOpen(!open) }
-                  aria-controls="example-collapse-text"
-                  aria-expanded={ open }
-                >
-                  click
-                </Button>
-                <IconButton onClick={ () => { alert("hello"); } } text="刷新" className="bg-teal border-0" icon="reload" iconClassName="me-1 text-white" iconSize="6" />
+                <IconButton onClick={ () => { setOpen(!open) } } text="刷新" className="bg-teal border-0" icon="reload" iconClassName="me-1 text-white" iconSize="6" />
+                <IconButton onClick={ () => { alert("hello"); } } text="编辑" className="bg-teal border-0" icon="square-edit-outline" iconClassName="me-1 text-white" iconSize="6" />
                 <IconButton onClick={ () => { alert("hello"); } } text="删除" className="bg-teal border-0" icon="delete-outline" iconClassName="me-1 text-white" iconSize="6" />
               </ButtonGroup>
             </ButtonToolbar>

@@ -2,38 +2,69 @@
 const Home = () => {
     const location = useLocation()
     const { id } = useParams()
+    const { response, error, loading, fetchDataByPage } = getUsers();
+
+
     useEffect(() => {
+        fetchDataByPage({ page: 1 });
         console.log(location);
         console.log(id);
         // 组件挂载时执行的代码（相当于 componentDidMount）
     }, []); // 空数组表示只在挂载和卸载时执行
 
-
     const [show, setShow] = useState(false);
+    const [open, setOpen] = useState(false);
     return (
         <div>
-            <Button onClick={ () => { setShow(true) } }>
-                打开
-            </Button>
+            { loading && <div className="text-center">Loading...</div> }
+            { error && <div className="text-center text-danger">{ error }</div> }
+            <div>
+                <div className="d-flex justify-content-between align-items-center p-2 border-bottom bg-light">
+                    <label className="fs-3">控制面板</label>
+                    <ButtonToolbar aria-label="功能区" className="bg-teal rounded">
+                        <ButtonGroup className="bg-teal">
+                            <IconButton onClick={ () => { setOpen(!open) } } text="刷新" className="bg-teal border-0" icon="reload" iconClassName="me-1 text-white" iconSize="6" />
+                            <IconButton onClick={ () => { alert("hello"); } } text="编辑" className="bg-teal border-0" icon="square-edit-outline" iconClassName="me-1 text-white" iconSize="6" />
+                            <IconButton onClick={ () => { alert("hello"); } } text="删除" className="bg-teal border-0" icon="delete-outline" iconClassName="me-1 text-white" iconSize="6" />
+                        </ButtonGroup>
+                    </ButtonToolbar>
+                </div>
 
-            <Button onClick={ () => { emitEvent("downloads", { "a": "b" }) } }>
-                <i className="mdi mdi-alert-box"></i>测试事件
-            </Button>
+                <Container className="p-2">
+                    <Button onClick={ () => { setShow(true) } }>
+                        打开
+                    </Button>
 
-            <Modal show={ show } onHide={ () => { setShow(false) } }>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                </Modal.Header>
-                <Modal.Body> <span className="mdi mdi-file-document-outline"></span>Woohoo, you are reading this text in a modal!</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={ () => { setShow(false) } }>
-                        Close
+                    <Button onClick={ () => { emitEvent("downloads", { "a": "b" }) } }>
+                        <i className="mdi mdi-alert-box"></i>测试事件
                     </Button>
-                    <Button variant="primary" onClick={ () => { emitEvent("downloads", { "a": "点击了保存" }) } }>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+
+                    <Modal show={ show } onHide={ () => { setShow(false) } }>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Modal heading</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body> <span className="mdi mdi-file-document-outline"></span>Woohoo, you are reading this text in a modal!</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={ () => { setShow(false) } }>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={ () => { emitEvent("downloads", { "a": "点击了保存" }) } }>
+                                Save Changes
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                    <Collapse in={ open }>
+                        <div id="example-collapse-text">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
+                            terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
+                            labore wes anderson cred nesciunt sapiente ea proident.
+                        </div>
+                    </Collapse>
+
+                    { response && <div className="text-center">{ JSON.stringify(response) }</div> }
+
+                </Container>
+            </div>
+        </div >
     );
 }
