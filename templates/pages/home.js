@@ -29,7 +29,7 @@ const Home = () => {
                         </ButtonGroup>
                     </ButtonToolbar>
                 </div>
-                <Container className="p-2">
+                <Container fluid className="p-2">
                     <Button onClick={ () => { setShow(true) } }>
                         打开
                     </Button>
