@@ -16,8 +16,8 @@ const Home = () => {
     const [open, setOpen] = useState(false);
     return (
         <div>
-            { loading && <div className="text-center">Loading...</div> }
-            { error && <div className="text-center text-danger">{ error }</div> }
+            { loading && <Alert variant="info" dismissible>Loading...</Alert> }
+            { error && <Alert variant="danger" dismissible>{ error }</Alert> }
             <div>
                 <div className="d-flex justify-content-between align-items-center p-2 border-bottom bg-light">
                     <label className="fs-3">控制面板</label>
@@ -29,7 +29,6 @@ const Home = () => {
                         </ButtonGroup>
                     </ButtonToolbar>
                 </div>
-
                 <Container className="p-2">
                     <Button onClick={ () => { setShow(true) } }>
                         打开

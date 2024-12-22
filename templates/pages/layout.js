@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
             </header >
             <Container fluid>
                 <Row>
-                    <Col md="2" lg="2" xl="2">
+                    <Col md="2" lg="2" xl="2" className="ps-0">
                         <Offcanvas className="leftsidebar h-100 bg-light" show={ showSideBar } onHide={ handleSidebarClose }
                             placement="start"
                             responsive="md">
@@ -44,16 +44,16 @@ const Layout = ({ children }) => {
                                     <Nav activeKey="1" className="flex-column">
                                         <Nav.Link as={ Link } className="nav-link text-dark" to="/home" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home</Nav.Link>
                                         <Nav.Link as={ Link } className="nav-link text-dark" to="/" onClick={ handleSidebarClose }><Icon icon="menu" size="6" className="me-1" />Root</Nav.Link>
+                                        <Nav.Link as={ Link } className="nav-link text-dark" to="/home/hello" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Test</Nav.Link>
                                     </Nav>
                                 </Container>
-
                             </Offcanvas.Body>
                         </Offcanvas>
                     </Col>
 
                     <Col xs="12" sm="12" md="10" lg="10" xl="10">
                         <main>
-                            <Container fluid className="pt-2">
+                            <Container fluid className="pt-2 px-0">
                                 { children }
                             </Container>
                         </main>
