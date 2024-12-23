@@ -48,7 +48,7 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
     const { HashRouter, Route, Link, Switch, useLocation, useParams } = ReactRouterDOM;
-    const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Row, ButtonToolbar } = ReactBootstrap;
+    const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Pagination, Row, ButtonToolbar } = ReactBootstrap;
     const API_URL = "http://yourapi.com";
 
     //监听事件开始  通过localstorage实现跨页面事件监听
@@ -87,8 +87,10 @@
     {% include 'hooks/useAxios.js' %}
     //导入所有hooks 结束
     //导入组件 开始
+    {% include 'components/DataTable.js' %}
     {% include 'components/Icon.js' %}
     {% include 'components/IconButton.js' %}
+    {% include 'components/Paginate.js' %}
     //导入所有组件 结束
     //导入页面 开始
     {% include 'pages/layout.js' %}

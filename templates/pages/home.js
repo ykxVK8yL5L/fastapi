@@ -14,6 +14,12 @@ const Home = () => {
 
     const [show, setShow] = useState(false);
     const [open, setOpen] = useState(false);
+
+
+
+    const [page, setPage] = useState(1);
+
+
     return (
         <div>
             { loading && <Alert variant="info" dismissible>Loading...</Alert> }
@@ -61,6 +67,7 @@ const Home = () => {
                     </Collapse>
 
                     { response && <div className="text-center">{ JSON.stringify(response) }</div> }
+                    <Paginate page={ page } onClick={ (i) => { setPage(i) } } itemsPerPage="10" totalCount="100" />
 
                 </Container>
             </div>
