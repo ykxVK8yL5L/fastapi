@@ -3,21 +3,19 @@ const Home = () => {
     const location = useLocation()
     const { id } = useParams()
     const { response, error, loading, fetchDataByPage } = getUsers();
-
+    const [page, setPage] = useState(1);
+    const [keyWord, setKeyWord] = useState("");
+    const [query, setQuery] = useState({ page: page, kw: keyWord });
 
     useEffect(() => {
-        fetchDataByPage({ page: 1 });
+        fetchDataByPage(query);
         console.log(location);
         console.log(id);
         // 组件挂载时执行的代码（相当于 componentDidMount）
-    }, []); // 空数组表示只在挂载和卸载时执行
+    }, [query]); // 空数组表示只在挂载和卸载时执行
 
     const [show, setShow] = useState(false);
     const [open, setOpen] = useState(false);
-
-
-
-    const [page, setPage] = useState(1);
 
 
     return (

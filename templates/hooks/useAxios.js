@@ -41,14 +41,15 @@ const useAxios = () => {
     }, []);
 
     // Making the API call with cancellation support
-    const fetchData = async ({ url, method, data }) => {
+    const fetchData = async ({ url, method, data, headers }) => {
         setLoading(true);
         try {
             const result = await axiosInstance({
                 url,
                 method,
+                headers: headers ? headers : {},
                 data: method.toLowerCase() === "get" ? undefined : data, // Only include data for non-GET requests
-                params: method.toLowerCase() === "get" ? data : params, // For GET requests, use data as query params
+                params: method.toLowerCase() === "get" ? data : undefined, // For GET requests, use data as query params
                 cancelToken: axios.CancelToken.source().token,
             });
             setResponse(result.data);
