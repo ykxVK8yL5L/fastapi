@@ -11,6 +11,7 @@ const Home = () => {
         fetchDataByPage(query);
         console.log(location);
         console.log(id);
+        return () => { }//解决react18 development模式下请求两次的问题
         // 组件挂载时执行的代码（相当于 componentDidMount）
     }, [query]); // 空数组表示只在挂载和卸载时执行
 
