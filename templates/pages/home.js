@@ -3,9 +3,8 @@ const Home = () => {
     const location = useLocation()
     const { id } = useParams()
     const { response, error, loading, fetchDataByPage } = getUsers();
-    const [page, setPage] = useState(1);
     const [keyWord, setKeyWord] = useState("");
-    const [query, setQuery] = useState({ page: page, kw: keyWord, sort: 'id' });
+    const [query, setQuery] = useState({ page: 1, kw: keyWord, sort: 'id' });
 
     useEffect(() => {
         fetchDataByPage(query);
@@ -48,7 +47,7 @@ const Home = () => {
                             aria-label="Example text with button addon"
                             aria-describedby="basic-addon1"
                         />
-                        <Button variant="outline-secondary" id="button-addon1" onClick={ () => { setQuery({ ...query, page: page, kw: keyWord, sort: "name" }) } }>
+                        <Button variant="outline-secondary" id="button-addon1" onClick={ () => { setQuery({ ...query, page: 1, kw: keyWord, sort: "name" }) } }>
                             Button
                         </Button>
                     </InputGroup>
@@ -83,13 +82,8 @@ const Home = () => {
                             labore wes anderson cred nesciunt sapiente ea proident.
                         </div>
                     </Collapse>
-
-
-
                     { response && <div className="text-center">{ JSON.stringify(response) }</div> }
-                    <Paginate page={ page } onClick={ (i) => { setPage(i) } } itemsPerPage="10" totalCount="100" />
-
-
+                    <Paginate page={ query.page } onClick={ (i) => { setQuery({ ...query, page: i }) } } itemsPerPage="20" totalCount="100" />
                 </Container>
             </div>
         </div >

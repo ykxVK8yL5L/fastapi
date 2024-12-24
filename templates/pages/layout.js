@@ -18,39 +18,13 @@ const Layout = ({ children }) => {
     return (
         <div>
             <header>
-                <Navbar expand="md">
-                    <Container fluid>
-                        <div>
-                            <Navbar.Toggle className="shadow-none border-0" onClick={ handleSidebarShow } children={ <Icon icon="menu" size="3" className="text-white" /> } />
-                            <Navbar.Brand as={ Link } to="/" className="text-white">离线管理</Navbar.Brand>
-                        </div>
-                        <div className="d-flex">
-                            <Button style={ { backgroundColor: "transparent" } } className="nav-link btn" onClick={ () => { alert("hello") } } children={ <Icon icon="plus" size="3" className="text-white" /> }></Button>
-                        </div>
-                    </Container>
-                </Navbar>
+                <HeaderNav onClick={ handleSidebarShow } />
             </header >
             <Container fluid>
                 <Row>
                     <Col md="2" lg="2" xl="2" className="ps-0">
-                        <Offcanvas className="leftsidebar h-100 bg-light" show={ showSideBar } onHide={ handleSidebarClose }
-                            placement="start"
-                            responsive="md">
-                            <Offcanvas.Header className="py-2 border-bottom" closeButton>
-                                <Offcanvas.Title>PikPak</Offcanvas.Title>
-                            </Offcanvas.Header>
-                            <Offcanvas.Body className="p-0">
-                                <Container fluid className="p-0">
-                                    <Nav activeKey="1" className="flex-column">
-                                        <Nav.Link as={ Link } className="nav-link text-dark" to="/home" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Home</Nav.Link>
-                                        <Nav.Link as={ Link } className="nav-link text-dark" to="/" onClick={ handleSidebarClose }><Icon icon="menu" size="6" className="me-1" />Root</Nav.Link>
-                                        <Nav.Link as={ Link } className="nav-link text-dark" to="/home/hello" onClick={ handleSidebarClose } ><Icon icon="plus" size="6" className="me-1" />Test</Nav.Link>
-                                    </Nav>
-                                </Container>
-                            </Offcanvas.Body>
-                        </Offcanvas>
+                        <SideBar show={ showSideBar } onHide={ handleSidebarClose } closeSideBar={ handleSidebarClose } />
                     </Col>
-
                     <Col xs="12" sm="12" md="10" lg="10" xl="10">
                         <main>
                             <Container fluid className="pt-2 px-0">

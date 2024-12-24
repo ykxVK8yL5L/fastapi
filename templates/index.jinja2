@@ -81,10 +81,11 @@
 
 
     //导入utils 开始
-    {% include 'utils/api.js' %}
+    {% include 'utils/Api.js' %}
+    {% include 'utils/RouterAndMenu.js' %}
     //导入所有utils 结束
     //导入hooks 开始
-    {% include 'hooks/useAxios.js' %}
+    {% include 'hooks/UseAxios.js' %}
     //导入所有hooks 结束
     //导入组件 开始
     {% include 'components/DataTable.js' %}
@@ -93,8 +94,8 @@
     {% include 'components/Paginate.js' %}
     //导入所有组件 结束
     //导入页面 开始
-    {% include 'pages/layout.js' %}
-    {% include 'pages/home.js' %}
+    {% include 'pages/Layout.js' %}
+    {% include 'pages/Home.js' %}
     //导入所有页面组件 结束
 
     const App = () => {
@@ -128,17 +129,7 @@
     const container = document.getElementById('root');
     const root = ReactDOM.createRoot(container);
     root.render(
-      <HashRouter>
-        <Route path='/:path?'>
-          <Layout>
-            <Switch>
-              <Route path="/" exact component={ App } />
-              <Route path="/home" exact component={ Home } />
-              <Route path="/home/:id?" component={ Home } />
-            </Switch>
-          </Layout>
-        </Route>
-      </HashRouter>
+      <AppRouter />
     );
 
 
