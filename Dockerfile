@@ -25,9 +25,9 @@ RUN apk add tzdata && \
 	echo "Asia/Shanghai" > /etc/timezone && \
 	apk del tzdata
     
-COPY main.py /root
+COPY . /root
 VOLUME /root
-COPY entrypoint.sh /entrypoint.sh
+#COPY entrypoint.sh /entrypoint.sh
 RUN apk add --no-cache bash && chmod +x /entrypoint.sh
 WORKDIR /root/
 RUN chmod -R 777 /root
