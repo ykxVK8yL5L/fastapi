@@ -28,7 +28,7 @@ RUN apk add tzdata && \
 WORKDIR /root/
 COPY . .
 VOLUME /root
-#COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 RUN apk add --no-cache bash && chmod +x /entrypoint.sh
 RUN chmod -R 777 /root
 
