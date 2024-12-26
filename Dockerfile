@@ -24,12 +24,12 @@ RUN apk add tzdata && \
 	cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 	echo "Asia/Shanghai" > /etc/timezone && \
 	apk del tzdata
-    
-COPY . /root
+
+WORKDIR /root/
+COPY . .
 VOLUME /root
 #COPY entrypoint.sh /entrypoint.sh
 RUN apk add --no-cache bash && chmod +x /entrypoint.sh
-WORKDIR /root/
 RUN chmod -R 777 /root
 
 CMD [ "/entrypoint.sh" ]
