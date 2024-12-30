@@ -1,7 +1,6 @@
 from typing import Union
 import os
 import importlib
-from functools import lru_cache
 from fastapi import FastAPI, Depends, Request, Body, Response, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, HTMLResponse, JSONResponse
@@ -14,10 +13,11 @@ from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from pydantic import Extra
-from setting.setting import Settings
+from setting.setting import get_settings
 from database import SessionLocal, engine
 import models
 import schemas
+
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -75,11 +75,6 @@ async def reset_downloads(db: Session = Depends(get_db)):
 # @repeat_every(seconds=3)
 # async def print_hello():
 #     print("hello")
-
-
-@lru_cache
-def get_settings():
-    return Settings()
 
 
 def register_routes(app: FastAPI, routes_package: str):

@@ -1,4 +1,5 @@
 from typing import Type, Tuple, Self
+from functools import lru_cache
 from pathlib import Path
 import json
 from pydantic_settings import (
@@ -31,3 +32,8 @@ class Settings(BaseSettings):
         # 将当前设置保存到 config.json 文件
         with open(config_file, "w") as f:
             json.dump(self.dict(), f, indent=4)
+
+
+@lru_cache
+def get_settings():
+    return Settings()
