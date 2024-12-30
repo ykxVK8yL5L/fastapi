@@ -40,7 +40,46 @@ const Home = () => {
                     </ButtonToolbar>
                 </div>
                 <Container fluid className="p-2">
-
+                    <Row>
+                        { [
+                            {
+                                prependAvatar: 'https://fancyapps.com/img/product_1_b.jpg',
+                                title: 'Brunch this weekend?',
+                                subtitle: `<span class="text-primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
+                            },
+                            {
+                                prependAvatar: 'https://fancyapps.com/img/product_2_b.jpg',
+                                title: 'Summer BBQ',
+                                subtitle: `<span class="text-primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
+                            },
+                            {
+                                prependAvatar: 'https://fancyapps.com/img/product_3_b.jpg',
+                                title: 'Oui oui',
+                                subtitle: '<span class="text-primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
+                            },
+                            {
+                                prependAvatar: 'https://fancyapps.com/img/product_4_b.jpg',
+                                title: 'Birthday gift',
+                                subtitle: '<span class="text-primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
+                            },
+                            {
+                                prependAvatar: 'https://fancyapps.com/img/product_5_b.jpg',
+                                title: 'Recipe to try',
+                                subtitle: '<span class="text-primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
+                            },
+                        ].map((column, index) => (
+                            <img data-fancybox="gallery" key={ index } src={ column.prependAvatar } href={ column.prependAvatar } />
+                        )) }
+                        <Col xs={ 6 } md={ 4 }>
+                            <Image data-fancybox="gallery" src="https://fancyapps.com/img/product_1_b.jpg" href="https://fancyapps.com/img/product_1_b.jpg" thumbnail />
+                        </Col>
+                        <Col xs={ 6 } md={ 4 }>
+                            <Image data-fancybox="gallery" src="https://fancyapps.com/img/product_2_b.jpg" href="https://fancyapps.com/img/product_2_b.jpg" thumbnail />
+                        </Col>
+                        <Col xs={ 6 } md={ 4 }>
+                            <Image data-fancybox="gallery" src="https://fancyapps.com/img/product_3_b.jpg" href="https://fancyapps.com/img/product_3_b.jpg" thumbnail />
+                        </Col>
+                    </Row>
                     <InputGroup>
                         <Form.Control
                             value={ keyWord } onChange={ handleKeyWordChange }

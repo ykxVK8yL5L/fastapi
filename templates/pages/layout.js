@@ -15,16 +15,18 @@ const Layout = ({ children }) => {
     const handleSidebarShow = () => setShowSideBar(true);
     const toggleSidebar = () => { setShowSideBar(!showSideBar); }
 
+
     return (
         <div>
-            <header>
+            <header className="sticky-top">
                 <HeaderNav onClick={ handleSidebarShow } />
             </header >
             <Container fluid>
-                <Row>
-                    <Col md="2" lg="2" xl="2" className="ps-0">
+                <Row style={ { minHeight: "100vh" } }>
+                    <Col md="2" lg="2" xl="2" className="ps-0 d-none d-md-block">
                         <SideBar show={ showSideBar } onHide={ handleSidebarClose } closeSideBar={ handleSidebarClose } />
                     </Col>
+
                     <Col xs="12" sm="12" md="10" lg="10" xl="10">
                         <main>
                             <Container fluid className="pt-2 px-0">
