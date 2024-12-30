@@ -12,11 +12,9 @@ from fastapi_pagination import Page, add_pagination
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
-from pydantic import Extra
 from setting.setting import get_settings
-from database import SessionLocal, engine
-import models
-import schemas
+from database import get_db, engine
+import models, schemas
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -39,18 +37,25 @@ headers = {
 }
 
 
-class PostRequest(BaseModel):
-    class Config:
-        extra = Extra.allow
+# def check_permission(method, api, auth):
+#     # The following paths are always allowed:
+#     if method == "GET" and api[1:] in ["docs", "openapi.json", "favicon.ico"]:
+#         return True
+#     # Parse auth header and check scheme, username and password
+#     scheme, data = (auth or " ").split(" ", 1)
+#     if scheme != "Basic":
+#         return False
+#     username, password = base64.b64decode(data).decode().split(":", 1)
+#     if username == "john" and password == "test123":
+#         return True
 
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# @app.middleware("http")
+# async def check_authentication(request: Request, call_next):
+#     auth = request.headers.get("Authorization")
+#     if not check_permission(request.method, request.url.path, auth):
+#         return JSONResponse(None, 401, {"WWW-Authenticate": "Basic"})
+#     return await call_next(request)
 
 
 @app.on_event("startup")

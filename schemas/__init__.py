@@ -1,6 +1,7 @@
 from typing import Union, Optional
 
 from pydantic import BaseModel, computed_field
+from pydantic import Extra
 
 
 # ==============================
@@ -29,3 +30,8 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class PostRequest(BaseModel):
+    class Config:
+        extra = Extra.allow
