@@ -9,15 +9,13 @@ from sqlalchemy import (
     Table,
     Float,
     JSON,
-    inspect,
-    select,
-    desc,
-    text,
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.exc import ProgrammingError
-from typing import Dict, Type
+from pydantic import BaseModel, Field, create_model as create_pydantic_model
+from typing import Dict, Type, Any, Tuple
 from database import Base, engine
+
 
 # 动态模型类型映射
 FIELD_TYPE_MAPPING = {"text": String, "int": Integer, "bool": Boolean, "float": Float}
@@ -26,6 +24,7 @@ FIELD_TYPE_MAPPING = {"text": String, "int": Integer, "bool": Boolean, "float": 
 # 模型操作开始
 # 已注册的模型表
 models_registry: Dict[str, Type[Base]] = {}
+pydantic_models_registry: Dict[str, Type[BaseModel]] = {}
 
 
 class RegisteredModel(Base):
@@ -80,6 +79,15 @@ def create_model(model_name: str, fields: Dict[str, str]):
     #             f"CREATE TABLE IF NOT EXISTS {model_name.lower()} (id INTEGER PRIMARY KEY AUTOINCREMENT)"
     #         )
     #     )
+
+    # 动态生成 Pydantic 模型
+    pydantic_model = create_pydantic_model(
+        f"{model_name}Schema",
+        **{field: (Any, ...) for field in fields.keys()},
+        id=(int, None),
+        __config__=type("Config", (), {"orm_mode": True}),
+    )
+    pydantic_models_registry[model_name] = pydantic_model
 
     return new_model
 

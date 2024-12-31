@@ -28,7 +28,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-add_pagination(app)
 
 
 app.mount("/assets", StaticFiles(directory="assets"), name="static")
@@ -95,10 +94,11 @@ def register_routes(app: FastAPI, routes_package: str):
                 app.include_router(module.router)
 
 
-# 启动时# 从 routes 目录加载路由
+# 启动时# 从 routes 目录加载路由并添加分页方法
 @app.on_event("startup")
 def load_routes():
     register_routes(app, "routes")
+    add_pagination(app)
 
 
 # 启动时加载已注册模型
