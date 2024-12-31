@@ -19,7 +19,7 @@ import crud
 
 router = APIRouter(
     prefix="/api/models",
-    tags=["模型", "API"],
+    tags=["模型"],
     responses={404: {"description": "Not found"}},
 )
 
@@ -36,9 +36,7 @@ class ModelDefinition(BaseModel):
     fields: list[FieldDefinition]
 
 
-@router.post(
-    "/register_model/", tags=["模型", "API"], summary="动态注册模型并持久化到数据库"
-)
+@router.post("/register_model/", tags=["模型"], summary="动态注册模型并持久化到数据库")
 async def register_model(definition: ModelDefinition, db: Session = Depends(get_db)):
     """
     动态注册模型并持久化到数据库
@@ -72,9 +70,7 @@ async def register_model(definition: ModelDefinition, db: Session = Depends(get_
     return {"message": f"Model '{definition.model_name}' created successfully"}
 
 
-@router.put(
-    "/update_model_name/{model_name}/", tags=["模型", "API"], summary="修改模型名称"
-)
+@router.put("/update_model_name/{model_name}/", tags=["模型"], summary="修改模型名称")
 async def update_model_name(
     model_name: str = Path(..., description="源模型名称"),
     new_model_name: str = Query(..., description="更改后的名称"),
@@ -133,7 +129,7 @@ async def update_model_name(
 
 @router.put(
     "/update_model_fields/{model_name}/",
-    tags=["模型", "API"],
+    tags=["模型"],
     summary="更新模型字段信息",
 )
 async def update_model_fields(
@@ -199,7 +195,7 @@ async def update_model_fields(
     return {"message": f"Model '{model_name}' fields updated successfully"}
 
 
-@router.post("/{model_name}/", tags=["模型", "API"], summary="创建模型记录")
+@router.post("/{model_name}/", tags=["模型"], summary="创建模型记录")
 async def create(model_name: str, item: dict, db: Session = Depends(get_db)):
     """创建记录"""
     model = models_registry.get(model_name)
@@ -210,7 +206,7 @@ async def create(model_name: str, item: dict, db: Session = Depends(get_db)):
 
 @router.get(
     "/{model_name}/",
-    tags=["模型", "API"],
+    tags=["模型"],
     summary="读取模型所有记录",
 )
 async def read(
@@ -226,9 +222,7 @@ async def read(
     return paginate(db, select(model).order_by(desc(model.id)), params=params)
 
 
-@router.get(
-    "/{model_name}/{model_id}", tags=["模型", "API"], summary="读取模型单条记录"
-)
+@router.get("/{model_name}/{model_id}", tags=["模型"], summary="读取模型单条记录")
 async def read_one(model_name: str, model_id: int, db: Session = Depends(get_db)):
     """读取单条记录"""
     model = models_registry.get(model_name)
@@ -237,7 +231,7 @@ async def read_one(model_name: str, model_id: int, db: Session = Depends(get_db)
     return crud.get_model_item(db, model, model_id)
 
 
-@router.put("/{model_name}/{model_id}", tags=["模型", "API"], summary="更新模型记录")
+@router.put("/{model_name}/{model_id}", tags=["模型"], summary="更新模型记录")
 async def update(
     model_name: str, model_id: int, update_data: dict, db: Session = Depends(get_db)
 ):
@@ -248,7 +242,7 @@ async def update(
     return crud.update_model_item(db, model, model_id, update_data)
 
 
-@router.delete("/{model_name}/{model_id}", tags=["模型", "API"], summary="删除模型记录")
+@router.delete("/{model_name}/{model_id}", tags=["模型"], summary="删除模型记录")
 async def delete(model_name: str, model_id: int, db: Session = Depends(get_db)):
     """删除记录"""
     model = models_registry.get(model_name)
