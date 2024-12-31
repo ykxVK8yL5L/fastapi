@@ -40,6 +40,7 @@ class ModelDefinition(BaseModel):
 async def register_model(definition: ModelDefinition, db: Session = Depends(get_db)):
     """
     动态注册模型并持久化到数据库
+    字段类型: text,int,bool,float
     """
     # 校验字段类型
     field_dict = {}
@@ -134,13 +135,15 @@ async def update_model_name(
 )
 async def update_model_fields(
     model_name: str = Path(..., description="模型名称"),
-    updated_fields: list[FieldDefinition] = Body(..., description="模型字段信息"),
+    updated_fields: list[FieldDefinition] = Body(
+        ..., description="模型字段信息,字段type类型: text,int,bool,float"
+    ),
     db: Session = Depends(get_db),
 ):
     """
     更新模型字段信息
     :param model_name: 需要更新的模型名称
-    :param updated_fields: 新的字段定义
+    :param updated_fields: 新的字段定义,字段type类型: text,int,bool,float
     """
     # 检查模型是否存在
     existing_model = (
