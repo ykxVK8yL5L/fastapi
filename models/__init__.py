@@ -6,10 +6,16 @@ from sqlalchemy import (
     String,
     Text,
     String,
+    Table,
     Float,
     JSON,
+    inspect,
+    select,
+    desc,
+    text,
 )
 from sqlalchemy.orm import relationship
+from sqlalchemy.exc import ProgrammingError
 from typing import Dict, Type
 from database import Base, engine
 
@@ -43,26 +49,39 @@ def create_model(model_name: str, fields: Dict[str, str]):
     # 转换字段为 SQLAlchemy 列
     attrs = {
         "__tablename__": model_name.lower(),
+        "__table_args__": {"extend_existing": True},
         "id": Column(Integer, primary_key=True, index=True),
     }
+    columns = []
     for field_name, field_type in fields.items():
         sqlalchemy_type = FIELD_TYPE_MAPPING.get(field_type)
         if not sqlalchemy_type:
             raise ValueError(f"Unsupported field type: {field_type}")
-        attrs[field_name] = Column(sqlalchemy_type)
+        column = Column(field_name, sqlalchemy_type)
+        attrs[field_name] = column
+        columns.append(column)
 
     # 动态生成模型类
     new_model = type(model_name, (Base,), attrs)
+
+    table = Table(model_name.lower(), Base.metadata, *columns, extend_existing=True)
+    new_model.__table__ = table
 
     # 注册模型到全局注册表
     models_registry[model_name] = new_model
 
     # 创建对应的数据库表
     Base.metadata.create_all(bind=engine)
+    # 检查表是否已存在，如果存在，则跳过创建
+    # with engine.connect() as connection:
+    #     # 检查表是否已存在，如果存在，则跳过创建
+    #     connection.execute(
+    #         text(
+    #             f"CREATE TABLE IF NOT EXISTS {model_name.lower()} (id INTEGER PRIMARY KEY AUTOINCREMENT)"
+    #         )
+    #     )
+
     return new_model
-
-
-from sqlalchemy import inspect
 
 
 # 模型操作结束

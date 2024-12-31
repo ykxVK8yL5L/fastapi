@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Body
 from pydantic import BaseModel
 from sqlalchemy import inspect, select, desc, text
 from sqlalchemy.orm import Session
@@ -25,8 +25,8 @@ class ModelDefinition(BaseModel):
     "/update_model_fields/{model_name}/", tags=["模型"], summary="更新模型字段信息"
 )
 async def update_model_fields(
-    model_name: str,
-    updated_fields: list[FieldDefinition],
+    model_name: str = Path(..., description="模型名称"),
+    updated_fields: list[FieldDefinition] = Body(..., description="模型字段信息"),
     db: Session = Depends(get_db),
 ):
     """
@@ -89,7 +89,9 @@ async def update_model_fields(
 
 @router.put("/update_model_name/{model_name}/", tags=["模型"], summary="修改模型名称")
 async def update_model_name(
-    model_name: str, new_model_name: str, db: Session = Depends(get_db)
+    model_name: str = Path(..., description="源模型名称"),
+    new_model_name: str = Query(..., description="更改后的名称"),
+    db: Session = Depends(get_db),
 ):
     """
     修改模型名称
