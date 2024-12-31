@@ -32,10 +32,18 @@ def create_user(db: Session, user: schemas.UserCreate):
         sort=user.sort,
         status=user.status,
     )
+    # db_user = models.User(**user.dict())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def create_users(db: Session, users: list[schemas.UserCreate]):
+    db_users = [models.User(**user.dict()) for user in users]
+    db.add_all(db_users)
+    db.commit()
+    return db_users
 
 
 def delete_user(db: Session, user_id: int):
@@ -48,7 +56,7 @@ def delete_user(db: Session, user_id: int):
 def update_user(db: Session, user: schemas.UserEdit):
     db_user = db.query(models.User).filter(models.User.id == user.id).first()
 
-    print(user.status)
+    # print(user.status)
     # Update model class variable from requested fields
     for var, value in vars(user).items():
         setattr(db_user, var, value) if value is not None else None
