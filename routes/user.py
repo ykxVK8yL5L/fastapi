@@ -38,6 +38,16 @@ async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.users.create_user(db=db, user=user)
 
 
+# 新建用户方法2
+# @router.post("/users", response_model=list[schemas.User])
+# async def create_tag(
+#     user_creates: list[schemas.UserCreate], db: Session = Depends(get_db)
+# ):
+#     users = crud.create_users(db, user_creates)
+#     return users
+#     raise HTTPException(status_code=400, detail="创建失败")
+
+
 @router.patch("/users", response_model=schemas.User)
 async def update_user(user: schemas.UserEdit, db: Session = Depends(get_db)):
     db_user = crud.users.get_user_by_id(db, id=user.id)
