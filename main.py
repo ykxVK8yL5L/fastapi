@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from setting.setting import get_settings
 from database import get_db, engine
-import models, schemas
+import models, schemas, crud
 
 
 models.Base.metadata.create_all(bind=engine)

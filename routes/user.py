@@ -1,29 +1,33 @@
-from fastapi import APIRouter, FastAPI, Depends, Request, Body, Response, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import select, desc
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 import crud.users
-import schemas, crud
+import schemas, crud, models
 from database import get_db
 
 router = APIRouter()
 
 
-# @router.get("/users", response_model=Page[schemas.User])
-# async def read_users(kw: str = "", db: Session = Depends(get_db)):
-#     return paginate(
-#         db,
-#         select(models.User)
-#         .where(models.User.username.like(f"%{kw}%"))
-#         .order_by(desc(models.User.id)),
-#     )
-
-
 # ==============================
 # 用户相关
 # ==============================
-@router.get("/users", response_model=list[schemas.User])
-async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.users.get_users(db, skip=skip, limit=limit)
-    return users
+# @router.get("/users", response_model=list[schemas.User])
+# async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+#     users = crud.users.get_users(db, skip=skip, limit=limit)
+#     return users
+
+
+# http://localhost:8000/users?kw=test&page=1
+@router.get("/users", response_model=Page[schemas.User])
+async def read_users(kw: str = "", db: Session = Depends(get_db)):
+    return paginate(
+        db,
+        select(models.User)
+        .where(models.User.username.like(f"%{kw}%"))
+        .order_by(desc(models.User.id)),
+    )
 
 
 @router.post("/users", response_model=schemas.User)
