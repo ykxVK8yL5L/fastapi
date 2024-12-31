@@ -20,8 +20,13 @@ router = APIRouter()
 
 
 # http://localhost:8000/users?kw=test&page=1
-@router.get("/users", response_model=Page[schemas.User])
+@router.get(
+    "/users", response_model=Page[schemas.User], tags=["用户"], summary="读取用户记录"
+)
 async def read_users(kw: str = "", db: Session = Depends(get_db)):
+    """
+    读取用户记录
+    """
     return paginate(
         db,
         select(models.User)
@@ -30,8 +35,11 @@ async def read_users(kw: str = "", db: Session = Depends(get_db)):
     )
 
 
-@router.post("/users", response_model=schemas.User)
+@router.post("/users", response_model=schemas.User, tags=["用户"], summary="新建用户")
 async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    """
+    新建用户
+    """
     db_user = crud.users.get_user_by_username(db, username=user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="用户已经存在")
@@ -48,15 +56,25 @@ async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 #     raise HTTPException(status_code=400, detail="创建失败")
 
 
-@router.patch("/users", response_model=schemas.User)
+@router.patch(
+    "/users", response_model=schemas.User, tags=["用户"], summary="更新用户信息"
+)
 async def update_user(user: schemas.UserEdit, db: Session = Depends(get_db)):
+    """
+    更新用户信息
+    """
     db_user = crud.users.get_user_by_id(db, id=user.id)
     if db_user is None:
         raise HTTPException(status_code=400, detail="用户不存在")
     return crud.users.update_user(db=db, user=user)
 
 
-@router.delete("/users/{user_id}", response_model=schemas.User)
+@router.delete(
+    "/users/{user_id}", response_model=schemas.User, tags=["用户"], summary="删除用户"
+)
 async def delete_user(user_id: int, db: Session = Depends(get_db)):
+    """
+    删除用户
+    """
     user = crud.users.delete_user(db, user_id=user_id)
     return user

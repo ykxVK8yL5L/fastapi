@@ -7,15 +7,16 @@ from fastapi.responses import StreamingResponse, HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi_utilities import repeat_at, repeat_every
-from sqlalchemy import select, desc
 from fastapi_pagination import Page, add_pagination
 from fastapi_pagination.ext.sqlalchemy import paginate
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, configure_mappers
 from pydantic import BaseModel, Field
 from setting.setting import get_settings
-from database import get_db, engine
+from database import get_db, engine, SessionLocal
+from models import FIELD_TYPE_MAPPING, RegisteredModel, create_model, models_registry
 import models, schemas, crud
 
+configure_mappers()
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -94,8 +95,24 @@ def register_routes(app: FastAPI, routes_package: str):
                 app.include_router(module.router)
 
 
-# 从 routes 目录加载路由
-register_routes(app, "routes")
+# 启动时# 从 routes 目录加载路由
+@app.on_event("startup")
+def load_routes():
+    register_routes(app, "routes")
+
+
+# 启动时加载已注册模型
+@app.on_event("startup")
+async def load_models():
+    # 手动调用 get_db() 并获取会话
+    db_generator = get_db()
+    db: Session = next(db_generator)  # 使用 next() 获取会话对象
+    try:
+        registered_models = db.query(RegisteredModel).all()
+        for model in registered_models:
+            create_model(model.model_name, model.fields)
+    finally:
+        db.close()
 
 
 @app.get("/", response_class=HTMLResponse)

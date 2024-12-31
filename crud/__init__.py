@@ -1,5 +1,44 @@
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
+from typing import Type
+from models import Base
+
+
+def create_model_item(db: Session, model: Type[Base], obj_data: dict):
+    """创建记录"""
+    db_obj = model(**obj_data)
+    db.add(db_obj)
+    db.commit()
+    db.refresh(db_obj)
+    return db_obj
+
+
+def get_model_items(db: Session, model: Type[Base], skip: int = 0, limit: int = 10):
+    """获取多条记录"""
+    return db.query(model).offset(skip).limit(limit).all()
+
+
+def get_model_item(db: Session, model: Type[Base], model_id: int):
+    """获取单条记录"""
+    return db.query(model).filter(model.id == model_id).first()
+
+
+def update_model_item(db: Session, model: Type[Base], model_id: int, update_data: dict):
+    """更新记录"""
+    db_obj = db.query(model).filter(model.id == model_id).first()
+    for key, value in update_data.items():
+        setattr(db_obj, key, value)
+    db.commit()
+    db.refresh(db_obj)
+    return db_obj
+
+
+def delete_model_item(db: Session, model: Type[Base], model_id: int):
+    """删除记录"""
+    db_obj = db.query(model).filter(model.id == model_id).first()
+    db.delete(db_obj)
+    db.commit()
+    return db_obj
 
 
 # ==============================
