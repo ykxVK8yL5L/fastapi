@@ -6,6 +6,8 @@ const AppRouter = () => {
                     <Route path="/" exact component={ App } />
                     <Route path="/home" exact component={ Home } />
                     <Route path="/home/:id?" component={ Home } />
+                    <Route path="/models" exact component={ Model } />
+                    <Route path="/models/:id?" component={ ModelItems } />
                 </Switch>
             </Layout>
         </Route>
@@ -24,9 +26,10 @@ const SideBar = (props) => {
             <Offcanvas.Body className="p-0">
                 <Container fluid className="p-0">
                     <Nav activeKey="1" className="flex-column">
-                        <Nav.Link as={ Link } className="nav-link text-dark" to="/" onClick={ props.closeSideBar }><Icon icon="menu" size="6" className="me-2" />App</Nav.Link>
+                        <Nav.Link as={ Link } className="nav-link text-dark" to="/" onClick={ props.closeSideBar }><Icon icon="view-dashboard-outline" size="6" className="me-2" />App</Nav.Link>
                         <Nav.Link as={ Link } className="nav-link text-dark" to="/home" onClick={ props.closeSideBar } ><Icon icon="plus" size="6" className="me-2" />Home</Nav.Link>
                         <Nav.Link as={ Link } className="nav-link text-dark" to="/home/hello" onClick={ props.closeSideBar } ><Icon icon="plus" size="6" className="me-2" />Test</Nav.Link>
+                        <Nav.Link as={ Link } className="nav-link text-dark" to="/models" onClick={ props.closeSideBar }><Icon icon="menu" size="6" className="me-2" />模型管理</Nav.Link>
                     </Nav>
                 </Container>
             </Offcanvas.Body>

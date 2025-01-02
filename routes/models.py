@@ -36,11 +36,21 @@ class ModelDefinition(BaseModel):
     fields: list[FieldDefinition]
 
 
-@router.post("/register_model/", tags=["模型"], summary="动态注册模型并持久化到数据库")
+# 模型注册请求体
+class ModelSchema(BaseModel):
+    id: int
+    model_name: str
+    fields: dict
+
+    class Config:
+        orm_mode = True
+
+
+@router.post("/register_model", tags=["模型"], summary="动态注册模型并持久化到数据库")
 async def register_model(definition: ModelDefinition, db: Session = Depends(get_db)):
     """
     动态注册模型并持久化到数据库
-    字段类型: text,int,bool,float
+    字段类型: string,text,int,bool,float
     """
     # 校验字段类型
     field_dict = {}
@@ -71,7 +81,26 @@ async def register_model(definition: ModelDefinition, db: Session = Depends(get_
     return {"message": f"Model '{definition.model_name}' created successfully"}
 
 
-@router.put("/update_model_name/{model_name}/", tags=["模型"], summary="修改模型名称")
+@router.get(
+    "/all", tags=["模型"], summary="读取所有模型", response_model=Page[ModelSchema]
+)
+async def all(db: Session = Depends(get_db)):
+    """读取所有模型"""
+    return paginate(db, select(RegisteredModel).order_by(desc(RegisteredModel.id)))
+
+
+@router.get("/{model_id}", tags=["模型"], summary="获取指定模型信息")
+async def get_model(
+    model_id: str = Path(..., description="模型ID"), db: Session = Depends(get_db)
+):
+    """根据ID获取指定模型信息"""
+    existing_model = (
+        db.query(RegisteredModel).filter(RegisteredModel.id == model_id).first()
+    )
+    return existing_model
+
+
+@router.put("/update_model_name/{model_name}", tags=["模型"], summary="修改模型名称")
 async def update_model_name(
     model_name: str = Path(..., description="源模型名称"),
     new_model_name: str = Query(..., description="更改后的名称"),
@@ -129,14 +158,14 @@ async def update_model_name(
 
 
 @router.put(
-    "/update_model_fields/{model_name}/",
+    "/update_model_fields/{model_name}",
     tags=["模型"],
     summary="更新模型字段信息",
 )
 async def update_model_fields(
     model_name: str = Path(..., description="模型名称"),
     updated_fields: list[FieldDefinition] = Body(
-        ..., description="模型字段信息,字段type类型: text,int,bool,float"
+        ..., description="模型字段信息,字段type类型: string,text,int,bool,float"
     ),
     db: Session = Depends(get_db),
 ):
@@ -198,7 +227,23 @@ async def update_model_fields(
     return {"message": f"Model '{model_name}' fields updated successfully"}
 
 
-@router.post("/{model_name}/", tags=["模型"], summary="创建模型记录")
+@router.delete("/{model_id}", tags=["模型"], summary="删除模型")
+async def delete(model_id: int, db: Session = Depends(get_db)):
+    """删除模型"""
+    delete_model = (
+        db.query(RegisteredModel).filter(RegisteredModel.id == model_id).first()
+    )
+    models_registry.pop(delete_model.model_name)
+    pydantic_models_registry.pop(delete_model.model_name)
+
+    with engine.connect() as connection:
+        connection.execute(text(f"DROP TABLE {delete_model.model_name}"))
+    db.delete(delete_model)
+    db.commit()
+    return {"message": f"Model '{delete_model.model_name}' delete successfully"}
+
+
+@router.post("/{model_name}", tags=["模型"], summary="创建模型记录")
 async def create(model_name: str, item: dict, db: Session = Depends(get_db)):
     """创建记录"""
     model = models_registry.get(model_name)
@@ -251,4 +296,7 @@ async def delete(model_name: str, model_id: int, db: Session = Depends(get_db)):
     model = models_registry.get(model_name)
     if not model:
         raise HTTPException(status_code=404, detail="Model not found")
-    return crud.delete_model_item(db, model, model_id)
+    delete_item = crud.delete_model_item(db, model, model_id)
+    if delete_item:
+        return {"message": f"记录删除成功"}
+    raise HTTPException(status_code=502, detail="记录删除失败")

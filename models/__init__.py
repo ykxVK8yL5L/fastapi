@@ -9,6 +9,7 @@ from sqlalchemy import (
     Table,
     Float,
     JSON,
+    text,
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.exc import ProgrammingError
@@ -18,7 +19,13 @@ from database import Base, engine
 
 
 # 动态模型类型映射
-FIELD_TYPE_MAPPING = {"text": String, "int": Integer, "bool": Boolean, "float": Float}
+FIELD_TYPE_MAPPING = {
+    "string": String,
+    "text": Text,
+    "int": Integer,
+    "bool": Boolean,
+    "float": Float,
+}
 
 
 # 模型操作开始
@@ -70,15 +77,15 @@ def create_model(model_name: str, fields: Dict[str, str]):
     models_registry[model_name] = new_model
 
     # 创建对应的数据库表
-    Base.metadata.create_all(bind=engine)
+    # Base.metadata.create_all(bind=engine)
     # 检查表是否已存在，如果存在，则跳过创建
-    # with engine.connect() as connection:
-    #     # 检查表是否已存在，如果存在，则跳过创建
-    #     connection.execute(
-    #         text(
-    #             f"CREATE TABLE IF NOT EXISTS {model_name.lower()} (id INTEGER PRIMARY KEY AUTOINCREMENT)"
-    #         )
-    #     )
+    with engine.connect() as connection:
+        # 检查表是否已存在，如果存在，则跳过创建
+        connection.execute(
+            text(
+                f"CREATE TABLE IF NOT EXISTS {model_name.lower()} (id INTEGER PRIMARY KEY AUTOINCREMENT)"
+            )
+        )
 
     # 动态生成 Pydantic 模型
     pydantic_model = create_pydantic_model(

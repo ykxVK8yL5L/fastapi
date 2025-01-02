@@ -3,6 +3,10 @@ const Paginate = (props) => {
     const page = props.page;
     const pageCount = Math.ceil(props.totalCount / props.itemsPerPage);
 
+    if (pageCount <= 1) {
+        return
+    }
+
     const SelectItems = () => {
         const pageNumbers = Array.from({ length: pageCount }, (_, i) => i + 1);
         return (

@@ -59,10 +59,10 @@
     }
   </style>
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useCallback } = React;
     const { HashRouter, Route, Link, Switch, useLocation, useParams } = ReactRouterDOM;
-    const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, Image, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Pagination, Row, ButtonToolbar } = ReactBootstrap;
-    const API_URL = "http://localhost:8000/users";
+    const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, Image, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Pagination, Row, ButtonToolbar, Table } = ReactBootstrap;
+    const API_URL = "http://localhost:8000";
 
     //监听事件开始  通过localstorage实现跨页面事件监听
     const emitter = mitt()
@@ -104,11 +104,15 @@
     {% include 'components/DataTable.js' %}
     {% include 'components/Icon.js' %}
     {% include 'components/IconButton.js' %}
+    {% include 'components/ModelModal.js' %}
+    {% include 'components/ModelItemModal.js' %}
     {% include 'components/Paginate.js' %}
     //导入所有组件 结束
     //导入页面 开始
-    {% include 'pages/Layout.js' %}
     {% include 'pages/Home.js' %}
+    {% include 'pages/Layout.js' %}
+    {% include 'pages/Model.js' %}
+    {% include 'pages/ModelItems.js' %}
     //导入所有页面组件 结束
 
     const App = () => {
