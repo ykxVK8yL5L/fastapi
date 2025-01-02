@@ -57,7 +57,7 @@ const ModelItemModal = (props) => {
                             case 'bool':
                                 return (
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>{ field.name }</Form.Label>
+                                        <Form.Label>{ field.name }:</Form.Label>
                                         <Col sm="12">
                                             <Form.Check
                                                 inline
@@ -85,7 +85,7 @@ const ModelItemModal = (props) => {
                             case 'text':
                                 return (
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                                        <Form.Label>{ field.name }</Form.Label>
+                                        <Form.Label>{ field.name }:</Form.Label>
                                         <Form.Control as="textarea" value={ item[field.name] } placeholder={ field.name } onChange={ (e) => { handelItemChange(field.name, e.target.value) } } />
                                     </Form.Group>
                                 )
