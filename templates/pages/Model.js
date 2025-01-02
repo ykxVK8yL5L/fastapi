@@ -13,6 +13,11 @@ const Model = () => {
     ];
 
     useEffect(() => {
+        onEvent('updateModel', handelEventUpdate);
+        return () => { }
+    }, []);
+
+    useEffect(() => {
         fetchDataByPage(query);
         // console.log(location);
         // console.log(id);
@@ -23,6 +28,11 @@ const Model = () => {
         setModel(model);
         setShow(true);
     }, []);
+
+
+    const handelEventUpdate = (e) => {
+        fetchDataByPage(query);
+    };
 
     return (
         <div>

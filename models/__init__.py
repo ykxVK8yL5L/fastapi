@@ -74,6 +74,8 @@ def create_model(model_name: str, fields: Dict[str, str]):
     new_model.__table__ = table
 
     # 注册模型到全局注册表
+    # 先清空之前的，要不然之前遗留字段会影响
+    models_registry[model_name] = {}
     models_registry[model_name] = new_model
 
     # 创建对应的数据库表
@@ -94,6 +96,7 @@ def create_model(model_name: str, fields: Dict[str, str]):
         id=(int, None),
         __config__=type("Config", (), {"orm_mode": True}),
     )
+    pydantic_models_registry[model_name] = {}
     pydantic_models_registry[model_name] = pydantic_model
 
     return new_model

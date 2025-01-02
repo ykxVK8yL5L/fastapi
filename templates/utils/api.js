@@ -82,32 +82,45 @@ const updateModelFields = (name, fields) => {
 
 
 const deleteModel = (e) => {
-    const loading = layer.load(1);
-    axios({
-        method: 'delete',
-        url: `${ API_URL }/api/models/` + e.id,
-    }).then(function (response) {
-        layer.msg(response.data.message);
-    }).catch(function (error) {
-        console.log(error)
-    }).finally(function () {
-        layer.close(loading);
+    layer.confirm('确认删除？操作不可撤销!', {
+        btn: ['确定', '关闭'] //按钮
+    }, function () {
+        const loading = layer.load(1);
+        axios({
+            method: 'delete',
+            url: `${ API_URL }/api/models/` + e.id,
+        }).then(function (response) {
+            layer.msg(response.data.message);
+        }).catch(function (error) {
+            console.log(error)
+        }).finally(function () {
+            layer.close(loading);
+        });
+        emitEvent('updateModel', {});
+    }, function () {
+
     });
 }
 onEvent('deleteModel', deleteModel);
 
 
 const deleteModelItem = (e) => {
-    const loading = layer.load(1);
-    axios({
-        method: 'delete',
-        url: `${ API_URL }/api/models/` + e.model_name + '/' + e.id,
-    }).then(function (response) {
-        layer.msg(response.data.message);
-    }).catch(function (error) {
-        console.log(error)
-    }).finally(function () {
-        layer.close(loading);
+    layer.confirm('确认删除？操作不可撤销!', {
+        btn: ['确定', '关闭'] //按钮
+    }, function () {
+        const loading = layer.load(1);
+        axios({
+            method: 'delete',
+            url: `${ API_URL }/api/models/` + e.model_name + '/' + e.id,
+        }).then(function (response) {
+            layer.msg(response.data.message);
+        }).catch(function (error) {
+            console.log(error)
+        }).finally(function () {
+            layer.close(loading);
+            emitEvent('updateModelItems', {});
+        });
+    }, function () {
     });
 }
 onEvent('deleteModelItem', deleteModelItem);

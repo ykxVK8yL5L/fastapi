@@ -26,8 +26,6 @@ const SideBar = (props) => {
                 <Container fluid className="p-0">
                     <Nav activeKey="1" className="flex-column">
                         <Nav.Link as={ Link } className="nav-link text-dark" to="/" onClick={ props.closeSideBar }><Icon icon="view-dashboard-outline" size="6" className="me-2" />模型管理</Nav.Link>
-                        <Nav.Link as={ Link } className="nav-link text-dark" to="/home" onClick={ props.closeSideBar } ><Icon icon="plus" size="6" className="me-2" />Home</Nav.Link>
-                        <Nav.Link as={ Link } className="nav-link text-dark" to="/models" onClick={ props.closeSideBar }><Icon icon="menu" size="6" className="me-2" />模型管理</Nav.Link>
                     </Nav>
                 </Container>
             </Offcanvas.Body>
