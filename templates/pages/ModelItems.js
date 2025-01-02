@@ -22,7 +22,9 @@ const ModelItems = () => {
         if (response) {
             setModel(response)
             var model_cloumns = [];
-            Object.entries(response.fields).map(([key, value]) => { model_cloumns.push({ title: key, dataIndex: key }) });
+            Object.entries(response.fields).map(([key, value]) => {
+                model_cloumns.push({ title: key, dataIndex: key, render: (row) => { if (value == "bool") { return JSON.stringify(row[key]) } else { return row[key]; } } });
+            });
             tcolumns.splice(1, 0, ...model_cloumns);
             tcolumns.push({ title: '操作', dataIndex: 'id', render: (row) => <span><IconButton onClick={ () => { handelEditModelItem(row); } } className="bg-teal border-0 me-1" icon="pencil-outline" iconClassName="text-white" iconSize="6" /><IconButton onClick={ () => { emitEvent("deleteModelItem", { "model_name": response.model_name, "id": row.id }); fetchDataByPage(response.model_name, query); } } className="bg-teal border-0" icon="delete-outline" iconClassName="text-white" iconSize="6" /></span> })
             setColumns(tcolumns);

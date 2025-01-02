@@ -19,6 +19,7 @@ const ModelItemModal = (props) => {
             setItem(props.item)
             setCreate(false)
         } else {
+            setItem({})
             setCreate(true)
         }
 
@@ -34,8 +35,8 @@ const ModelItemModal = (props) => {
     };
 
 
-    const handelItemChange = (field_name, e) => {
-        setItem({ ...item, [field_name]: e.target.value })
+    const handelItemChange = (field_name, value) => {
+        setItem({ ...item, [field_name]: value })
     }
 
 
@@ -57,24 +58,26 @@ const ModelItemModal = (props) => {
                                 return (
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>{ field.name }</Form.Label>
-                                        <Form.Check
-                                            inline
-                                            label="true"
-                                            name={ field.name }
-                                            type="radio"
-                                            value="true"
-                                            checked={ item[field.name] == "true" }
-                                            onClick={ (e) => { handelItemChange(field.name, e) } }
-                                        />
-                                        <Form.Check
-                                            inline
-                                            label="false"
-                                            name={ field.name }
-                                            type="radio"
-                                            value="false"
-                                            checked={ item[field.name] == "false" }
-                                            onClick={ (e) => { handelItemChange(field.name, e) } }
-                                        />
+                                        <Col sm="12">
+                                            <Form.Check
+                                                inline
+                                                label="true"
+                                                name={ field.name }
+                                                type="radio"
+                                                value="1"
+                                                checked={ item[field.name] == 1 }
+                                                onClick={ () => { handelItemChange(field.name, true) } }
+                                            />
+                                            <Form.Check
+                                                inline
+                                                label="false"
+                                                name={ field.name }
+                                                type="radio"
+                                                value="0"
+                                                checked={ item[field.name] == 0 }
+                                                onClick={ () => { handelItemChange(field.name, false) } }
+                                            />
+                                        </Col>
                                     </Form.Group>
 
                                 )
@@ -83,7 +86,7 @@ const ModelItemModal = (props) => {
                                 return (
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>{ field.name }</Form.Label>
-                                        <Form.Control as="textarea" value={ item[field.name] } placeholder={ field.name } onChange={ (e) => { handelItemChange(field.name, e) } } />
+                                        <Form.Control as="textarea" value={ item[field.name] } placeholder={ field.name } onChange={ (e) => { handelItemChange(field.name, e.target.value) } } />
                                     </Form.Group>
                                 )
                                 break;
@@ -91,7 +94,7 @@ const ModelItemModal = (props) => {
                                 return (
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>{ field.name }</Form.Label>
-                                        <Form.Control placeholder={ field.name } value={ item[field.name] } onChange={ (e) => { handelItemChange(field.name, e) } } />
+                                        <Form.Control placeholder={ field.name } value={ item[field.name] } onChange={ (e) => { handelItemChange(field.name, e.target.value) } } />
                                     </Form.Group>
                                 )
                                 break;
@@ -101,10 +104,10 @@ const ModelItemModal = (props) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer className="justify-content-between">
-                <Button variant="secondary" onClick={ () => { props.onHide() } }>
+                <Button variant="secondary" onClick={ () => { setItem({}); props.onHide() } }>
                     关闭
                 </Button>
-                <Button variant="primary" onClick={ () => { saveModelItem(); props.onHide(); props.onSave() } }>
+                <Button variant="primary" onClick={ () => { saveModelItem(); setItem({}); props.onHide(); props.onSave() } }>
                     保存
                 </Button>
             </Modal.Footer>
