@@ -5,6 +5,7 @@ const ModelItems = () => {
     const { response, error, loading, fetchModelById } = getModel();
     const { response: items_re, error: items_err, loading: items_loading, fetchDataByPage } = getModelItems();
     const [show, setShow] = useState(false);
+    const [reload, setReload] = useState(false);
     const [model, setModel] = useState({});
     const [modelItem, setModelItem] = useState({});
     const [query, setQuery] = useState({ page: 1, size: 50 });
@@ -20,15 +21,16 @@ const ModelItems = () => {
 
     useEffect(() => {
         if (response) {
-            onEvent('updateModelItems', handelEventUpdate);
             setModel(response)
             var model_cloumns = [];
             Object.entries(response.fields).map(([key, value]) => {
                 model_cloumns.push({ title: key, dataIndex: key, render: (row) => { if (value == "bool") { return JSON.stringify(row[key]) } else { return row[key]; } } });
             });
             tcolumns.splice(1, 0, ...model_cloumns);
-            tcolumns.push({ title: '操作', dataIndex: 'id', render: (row) => <span><IconButton onClick={ () => { handelEditModelItem(row); } } className="bg-teal border-0 me-1" icon="pencil-outline" iconClassName="text-white" iconSize="6" /><IconButton onClick={ () => { emitEvent("deleteModelItem", { "model_name": response.model_name, "id": row.id }); } } className="bg-teal border-0" icon="delete-outline" iconClassName="text-white" iconSize="6" /></span> })
+            tcolumns.push({ title: '操作', dataIndex: 'id', render: (row) => <span><IconButton onClick={ () => { handelEditModelItem(row); } } className="bg-teal border-0 me-1" icon="pencil-outline" iconClassName="text-white" iconSize="6" /><IconButton onClick={ () => { emitEvent("deleteModelItem", { "model_name": response.model_name, "id": row.id, "callback": forceUpdate }); } } className="bg-teal border-0" icon="delete-outline" iconClassName="text-white" iconSize="6" /></span> })
             setColumns(tcolumns);
+        }
+        return () => {
         }
     }, [response]);
 
@@ -37,16 +39,17 @@ const ModelItems = () => {
             fetchDataByPage(model.model_name, query)
         }
         return () => { }
-    }, [model, query]); // 空数组表示只在挂载和卸载时执行
+    }, [model, query, reload]);
+
+    const forceUpdate = () => {
+        setReload((pre) => !pre);
+    }
 
     const handelEditModelItem = useCallback((item) => {
         setModelItem(item);
         setShow(true);
     }, []);
 
-    const handelEventUpdate = (e) => {
-        fetchDataByPage(response.model_name, query);
-    };
 
     return (
         <div>

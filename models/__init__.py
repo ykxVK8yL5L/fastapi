@@ -9,6 +9,7 @@ from sqlalchemy import (
     Table,
     Float,
     JSON,
+    inspect,
     text,
 )
 from sqlalchemy.orm import relationship
@@ -88,6 +89,22 @@ def create_model(model_name: str, fields: Dict[str, str]):
                 f"CREATE TABLE IF NOT EXISTS {model_name.lower()} (id INTEGER PRIMARY KEY AUTOINCREMENT)"
             )
         )
+        existing_columns = inspect(engine).get_columns(model_name.lower())
+        existing_column_names = {col["name"] for col in existing_columns}
+        for field_name, field_type in fields.items():
+            if field_name not in existing_column_names:
+                # 添加新字段
+                connection.execute(
+                    text(
+                        f"ALTER TABLE {model_name.lower()} ADD COLUMN {field_name} {FIELD_TYPE_MAPPING[field_type].__visit_name__.upper()}"
+                    )
+                )
+        for field_name in existing_column_names:
+            if field_name != "id" and field_name not in fields:
+                # 删除字段（如果需要支持删除字段）
+                connection.execute(
+                    text(f"ALTER TABLE {model_name.lower()} DROP COLUMN {field_name}")
+                )
 
     # 动态生成 Pydantic 模型
     pydantic_model = create_pydantic_model(

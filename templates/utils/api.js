@@ -82,6 +82,8 @@ const updateModelFields = (name, fields) => {
 
 
 const deleteModel = (e) => {
+    // e.callback();
+    // return false;
     layer.confirm('确认删除？操作不可撤销!', {
         btn: ['确定', '关闭'] //按钮
     }, function () {
@@ -95,8 +97,8 @@ const deleteModel = (e) => {
             console.log(error)
         }).finally(function () {
             layer.close(loading);
+            e.callback();
         });
-        emitEvent('updateModel', {});
     }, function () {
 
     });
@@ -118,7 +120,7 @@ const deleteModelItem = (e) => {
             console.log(error)
         }).finally(function () {
             layer.close(loading);
-            emitEvent('updateModelItems', {});
+            e.callback();
         });
     }, function () {
     });

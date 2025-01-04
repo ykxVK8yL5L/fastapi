@@ -9,30 +9,25 @@ const Model = () => {
     const columns = [
         { title: 'ID', dataIndex: 'id' },
         { title: '名称', dataIndex: 'model_name' },
-        { title: '操作', dataIndex: 'id', render: (row) => <span><Link to={ `/models/` + row.id }><IconButton className="bg-teal border-0 me-1" icon="eye-outline" iconClassName="text-white" iconSize="6" /></Link> <IconButton onClick={ () => { handelEditModel(row); } } className="bg-teal border-0 me-1" icon="pencil-outline" iconClassName="text-white" iconSize="6" /><IconButton onClick={ () => { emitEvent("deleteModel", { "id": row.id }); fetchDataByPage(query); } } className="bg-teal border-0" icon="delete-outline" iconClassName="text-white" iconSize="6" /></span> },
+        { title: '操作', dataIndex: 'id', render: (row) => <span><Link to={ `/models/` + row.id }><IconButton className="bg-teal border-0 me-1" icon="eye-outline" iconClassName="text-white" iconSize="6" /></Link> <IconButton onClick={ () => { handelEditModel(row); } } className="bg-teal border-0 me-1" icon="pencil-outline" iconClassName="text-white" iconSize="6" /><IconButton onClick={ () => { emitEvent("deleteModel", { "id": row.id, "callback": forceUpdate }); } } className="bg-teal border-0" icon="delete-outline" iconClassName="text-white" iconSize="6" /></span> },
     ];
-
-    useEffect(() => {
-        onEvent('updateModel', handelEventUpdate);
-        return () => { }
-    }, []);
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         fetchDataByPage(query);
         // console.log(location);
         // console.log(id);
         return () => { }
-    }, [query]); // 空数组表示只在挂载和卸载时执行
+    }, [query, reload]); // 空数组表示只在挂载和卸载时执行
 
     const handelEditModel = useCallback((model) => {
         setModel(model);
         setShow(true);
     }, []);
 
-
-    const handelEventUpdate = (e) => {
-        fetchDataByPage(query);
-    };
+    const forceUpdate = () => {
+        setReload((pre) => !pre);
+    }
 
     return (
         <div>
