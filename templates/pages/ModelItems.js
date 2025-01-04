@@ -14,9 +14,16 @@ const ModelItems = () => {
     ];
     const [columns, setColumns] = useState([]);
 
+    const forceUpdate = () => {
+        setReload((pre) => !pre);
+    }
+
     useEffect(() => {
         fetchModelById(id)
-        return () => { }
+        onEvent('deleteModelItemCallBack', forceUpdate);
+        return () => {
+            offEvent('deleteModelItemCallBack', forceUpdate);
+        };
     }, []);
 
     useEffect(() => {
@@ -41,9 +48,7 @@ const ModelItems = () => {
         return () => { }
     }, [model, query, reload]);
 
-    const forceUpdate = () => {
-        setReload((pre) => !pre);
-    }
+
 
     const handelEditModelItem = useCallback((item) => {
         setModelItem(item);

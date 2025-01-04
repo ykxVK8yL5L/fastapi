@@ -97,7 +97,7 @@ const deleteModel = (e) => {
             console.log(error)
         }).finally(function () {
             layer.close(loading);
-            e.callback();
+            emitEvent('deleteModelCallBack', {})
         });
     }, function () {
 
@@ -120,7 +120,7 @@ const deleteModelItem = (e) => {
             console.log(error)
         }).finally(function () {
             layer.close(loading);
-            e.callback();
+            emitEvent('deleteModelItemCallBack', {})
         });
     }, function () {
     });
