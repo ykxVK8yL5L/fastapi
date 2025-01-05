@@ -34,6 +34,7 @@ const SideBar = (props) => {
 }
 
 const HeaderNav = (props) => {
+    const [setting, setSetting] = useState(false);
     return (
         <Navbar expand="md">
             <Container fluid>
@@ -42,8 +43,14 @@ const HeaderNav = (props) => {
                     <Navbar.Brand as={ Link } to="/" className="text-white">离线管理</Navbar.Brand>
                 </div>
                 <div className="d-flex">
-                    <Button style={ { backgroundColor: "transparent" } } className="nav-link btn" onClick={ () => { alert("hello") } } children={ <Icon icon="plus" size="3" className="text-white" /> }></Button>
+                    <Button style={ { backgroundColor: "transparent" } } className="nav-link btn" onClick={ () => { setSetting(true) } } children={ <Icon icon="menu" size="3" className="text-white" /> }></Button>
                 </div>
+                <SettingModal
+                    show={ setting }
+                    onHide={ () => {
+                        setSetting(false);
+                    } }
+                />
             </Container>
         </Navbar>
     );

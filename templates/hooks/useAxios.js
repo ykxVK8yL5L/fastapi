@@ -65,5 +65,5 @@ const useAxios = () => {
     };
 
     // Expose the state and the fetchData function
-    return { response, error, loading, fetchData };
+    return [response, error, loading, fetchData];
 };

@@ -1,5 +1,5 @@
 const getUsers = () => {
-    const { response, error, loading, fetchData } = useAxios();
+    const [response, error, loading, fetchData] = useAxios();
     const fetchDataByPage = async (query) => {
         fetchData({
             url: `${ API_URL }/users`,
@@ -7,11 +7,11 @@ const getUsers = () => {
             data: query
         });
     };
-    return { response, error, loading, fetchDataByPage };
+    return [response, error, loading, fetchDataByPage];
 }
 
 const getModels = () => {
-    const { response, error, loading, fetchData } = useAxios();
+    const [response, error, loading, fetchData] = useAxios();
     const fetchDataByPage = async (query) => {
         fetchData({
             url: `${ API_URL }/api/models/all`,
@@ -19,23 +19,23 @@ const getModels = () => {
             data: query
         });
     };
-    return { response, error, loading, fetchDataByPage };
+    return [response, error, loading, fetchDataByPage];
 }
 
 const getModel = () => {
-    const { response, error, loading, fetchData } = useAxios();
+    const [response, error, loading, fetchData] = useAxios();
     const fetchModelById = async (id) => {
         fetchData({
             url: `${ API_URL }/api/models/` + id,
             method: "GET"
         });
     };
-    return { response, error, loading, fetchModelById };
+    return [response, error, loading, fetchModelById];
 }
 
 
 const getModelItems = () => {
-    const { response, error, loading, fetchData } = useAxios();
+    const [response, error, loading, fetchData] = useAxios();
     const fetchDataByPage = async (name, query) => {
         fetchData({
             url: `${ API_URL }/api/models/` + name + '/',
@@ -43,7 +43,7 @@ const getModelItems = () => {
             data: query
         });
     };
-    return { response, error, loading, fetchDataByPage };
+    return [response, error, loading, fetchDataByPage];
 }
 
 const createModel = (name, fields) => {

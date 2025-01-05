@@ -2,8 +2,8 @@
 const ModelItems = () => {
     const location = useLocation()
     const { id } = useParams()
-    const { response, error, loading, fetchModelById } = getModel();
-    const { response: items_re, error: items_err, loading: items_loading, fetchDataByPage } = getModelItems();
+    const [response, error, loading, fetchModelById] = getModel();
+    const [items_re, items_err, items_loading, fetchDataByPage] = getModelItems();
     const [show, setShow] = useState(false);
     const [reload, setReload] = useState(false);
     const [model, setModel] = useState({});

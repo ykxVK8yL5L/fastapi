@@ -2,7 +2,7 @@
 const Model = () => {
     const location = useLocation()
     const { id } = useParams()
-    const { response, error, loading, fetchDataByPage } = getModels();
+    const [response, error, loading, fetchDataByPage] = getModels();
     const [show, setShow] = useState(false);
     const [model, setModel] = useState({});
     const [query, setQuery] = useState({ page: 1, sort: 'id' });
