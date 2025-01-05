@@ -43,7 +43,7 @@ const HeaderNav = (props) => {
                     <Navbar.Brand as={ Link } to="/" className="text-white">离线管理</Navbar.Brand>
                 </div>
                 <div className="d-flex">
-                    <Button style={ { backgroundColor: "transparent" } } className="nav-link btn" onClick={ () => { setSetting(true) } } children={ <Icon icon="menu" size="3" className="text-white" /> }></Button>
+                    <Button style={ { backgroundColor: "transparent" } } className="nav-link btn" onClick={ () => { setSetting(true) } } children={ <Icon icon="dots-vertical" size="3" className="text-white" /> }></Button>
                 </div>
                 <SettingModal
                     show={ setting }
