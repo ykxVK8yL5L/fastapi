@@ -1,8 +1,8 @@
 //设置对话框
 const SettingModal = (props) => {
     const settings = [
-        { "alist": [{ "label": "Alist地址", "key": "alist_host" }, { "label": "Alist令牌", "key": "alist_token" }] },
-        { "github": [{ "label": "Actions地址", "key": "github_host" }, { "label": "Github令牌", "key": "github_token" }] }
+        { "alist": [{ "label": "Alist地址", "key": "alist_host", "show": true }, { "label": "Alist令牌", "key": "alist_token", "show": false }] },
+		{ "github": [{ "label": "Actions地址", "key": "github_host", "show": true }, { "label": "Github令牌", "key": "github_token", "show": false }] }
     ]
     const [setting, setSetting] = useState({});
     // useEffect(() => {
@@ -36,7 +36,7 @@ const SettingModal = (props) => {
                                         {setting_item.label}
                                     </Form.Label>
                                     <Col sm="9">
-                                        <Form.Control name={setting_item.key} value={setting[setting_item.key]} placeholder={setting_item.label} onChange={(e) => { setSetting({ ...setting, [setting_item.key]: e.target.value }) }} />
+                                        <Form.Control name={setting_item.key} type={setting_item.show ? "input" : "password"} value={setting[setting_item.key]} placeholder={setting_item.label} onChange={(e) => { setSetting({ ...setting, [setting_item.key]: e.target.value }) }} />
                                     </Col>
                                 </Form.Group>
                             )
