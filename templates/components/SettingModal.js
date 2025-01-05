@@ -36,7 +36,7 @@ const SettingModal = (props) => {
                                         {setting_item.label}
                                     </Form.Label>
                                     <Col sm="9">
-                                        <Form.Control name={setting_item.key} placeholder={setting_item.label} onChange={(e) => { setSetting({ ...setting, [setting_item.key]: e.target.value }) }} />
+                                        <Form.Control name={setting_item.key} value={setting[setting_item.key]} placeholder={setting_item.label} onChange={(e) => { setSetting({ ...setting, [setting_item.key]: e.target.value }) }} />
                                     </Col>
                                 </Form.Group>
                             )
