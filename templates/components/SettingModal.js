@@ -10,13 +10,14 @@ const SettingModal = (props) => {
     // }, [setting]);
 
     const loadSetting = () => {
-        const storedSettings = localStorage.getItem('settings');
+        const storedSettings = STORE.getState().settings;
         if (storedSettings) {
-            setSetting(JSON.parse(storedSettings));
+            setSetting(storedSettings);
         }
     }
     const saveSetting = () => {
-        localStorage.setItem('settings', JSON.stringify(setting));
+        STORE.dispatch({ type: 'SAVE_SETTING', payload: setting })
+        //localStorage.setItem('settings', JSON.stringify(setting));
     }
     return (
         <Modal show={ props.show } onHide={ props.onHide } onShow={ loadSetting }>

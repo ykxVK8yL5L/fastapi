@@ -14,6 +14,7 @@
   <script src="/assets/js/react-dom.production.min.js"></script>
   <script src="/assets/js/react-bootstrap.min.js"></script>
   <script src="/assets/js/react-router-dom.js"></script>
+  <script src="/assets/js/redux.min.js"></script>
   <script src="/assets/js/dayjs.min.js"></script>
   <script src="/assets/js/babel.js"></script>
   <script src="/assets/js/runtime.min.js"></script>
@@ -91,6 +92,64 @@
       emitter.off(type, callback);
     };
     //事件监听结束
+
+    //全局状态管理开始
+
+    const { createStore, combineReducers } = Redux;
+
+    // 从 localStorage 加载初始状态
+    const loadStateFromLocalStorage = () => {
+      try {
+        const serializedState = localStorage.getItem('settings');
+        if (serializedState === null) {
+          return {}; // 默认值
+        }
+        return JSON.parse(serializedState);
+      } catch (e) {
+        console.error("Could not load state from localStorage:", e);
+        return {}; // 默认值
+      }
+    };
+
+    // 保存状态到 localStorage
+    const saveStateToLocalStorage = (state) => {
+      try {
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem('settings', serializedState);
+      } catch (e) {
+        console.error("Could not save state to localStorage:", e);
+      }
+    };
+
+    // 定义初始状态
+    const initialSettingsState = loadStateFromLocalStorage();
+
+    // 创建 settings Reducer
+    function settingsReducer(state = initialSettingsState, action) {
+      switch (action.type) {
+        case 'SAVE_SETTING':
+          return { ...state, ...action.payload };
+        default:
+          return state;
+      }
+    }
+
+    // 合并 Reducer（如果有多个）
+    const rootReducer = combineReducers({
+      settings: settingsReducer,
+    });
+
+    // 创建 Redux Store
+    const STORE = createStore(rootReducer);
+
+    // 订阅 Store 的变化，并将状态保存到 localStorage
+    STORE.subscribe(() => {
+      saveStateToLocalStorage(STORE.getState().settings);
+    });
+
+    //store.dispatch({ type: 'SAVE_SETTING', payload: setting })
+
+    //全局状态管理结束
 
 
     //导入utils 开始
