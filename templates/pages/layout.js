@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
 
 
     return (
-        <div>
+        <div className="pb-5">
             <header className="sticky-top">
                 <HeaderNav onClick={ handleSidebarShow } />
             </header >
