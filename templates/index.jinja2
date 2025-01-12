@@ -14,12 +14,14 @@
   <script src="/assets/js/react-dom.production.min.js"></script>
   <script src="/assets/js/react-bootstrap.min.js"></script>
   <script src="/assets/js/react-router-dom.js"></script>
+  <script src="/assets/js/react-query.js"></script>
   <script src="/assets/js/redux.min.js"></script>
   <script src="/assets/js/dayjs.min.js"></script>
   <script src="/assets/js/babel.js"></script>
   <script src="/assets/js/runtime.min.js"></script>
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/axios.min.js"></script>
+  <script src="/assets/js/ajv7.min.js"></script>
   <script src="/assets/fancybox/fancybox/fancybox.umd.js"></script>
   <script src="/assets/js/mitt.umd.js"></script>
   <script src="/assets/layer/layer.js"></script>
@@ -62,8 +64,25 @@
   <script type="text/babel">
     const { useState, useEffect, useCallback } = React;
     const { HashRouter, Route, Link, Switch, useLocation, useParams } = ReactRouterDOM;
+    const { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } = ReactQuery;
+    const queryClient = new QueryClient()
     const { Alert, Badge, Button, ButtonGroup, Collapse, Col, Container, Form, Image, InputGroup, ListGroup, Modal, Nav, Navbar, NavDropdown, Offcanvas, Pagination, Row, ButtonToolbar, Table } = ReactBootstrap;
     const API_URL = "http://localhost:8000";
+
+    var ajv = new ajv7.default()
+    //const schema = {}
+    //const data = {
+    //   foo: 1,
+    //   bar: "abc"
+    // }
+    // const validate = ajv.compile(schema)
+    // const valid = validate(data)
+    // if (!valid) console.log(validate.errors)
+    // console.log(valid)
+
+
+
+
 
     //监听事件开始  通过localstorage实现跨页面事件监听
     const emitter = mitt()
@@ -148,7 +167,6 @@
     });
 
     //store.dispatch({ type: 'SAVE_SETTING', payload: setting })
-
     //全局状态管理结束
 
 
@@ -178,6 +196,13 @@
     const App = () => {
       //useEffect(() => {
       //}, []);
+
+      //const queryClient = useQueryClient()
+      // const { data, error, isLoading, refetch } = useQuery({
+      //   queryKey: ['test'], queryFn: () => axios.get(API_URL)
+      // })
+
+
       const [open, setOpen] = useState(false);
       return (
         <div>
@@ -206,7 +231,9 @@
     const container = document.getElementById('root');
     const root = ReactDOM.createRoot(container);
     root.render(
-      <AppRouter />
+      <QueryClientProvider client={ queryClient }>
+        <AppRouter />
+      </QueryClientProvider>
     );
 
 
