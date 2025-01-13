@@ -22,6 +22,7 @@
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/axios.min.js"></script>
   <script src="/assets/js/ajv7.min.js"></script>
+  <script src="/assets/js/localforage.min.js"></script>
   <script src="/assets/fancybox/fancybox/fancybox.umd.js"></script>
   <script src="/assets/js/mitt.umd.js"></script>
   <script src="/assets/layer/layer.js"></script>
@@ -81,7 +82,19 @@
     // console.log(valid)
 
 
-
+    // var settingStorage = localforage.createInstance({
+		// 	name: "setting",
+		// 	driver: localforage.LOCALSTORAGE
+		// });
+		// settingStorage.setItem("category", { name: 'test', id: 1 });
+		// settingStorage.getItem('category').then(function (value) {
+		// 	console.log(value);
+		// }).catch(function (err) {
+		// 	console.log(err);
+		// });
+		// settingStorage.getItem('category', function (err, value) {
+		// 	console.log(value.name);
+		// });
 
 
     //监听事件开始  通过localstorage实现跨页面事件监听
